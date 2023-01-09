@@ -1,16 +1,18 @@
-# This is a sample Python script.
+from gui import display
+from functions import *
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+def start():
+    checktheme()
+    theme = getTheme()
+    d = display(screenX=800,screenY=600,bgc=theme[0],title="neural networking")
+
+    while d.runing == True:
+        d.update()
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
 
 
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    print_hi('PyCharm')
+    start()
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+

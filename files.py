@@ -98,8 +98,18 @@ class fileIntrations:
         f.close()
         return 0
 
+    def closefile1d(self,file,data):
+        ffi = ""
+        for i in range(len(data)):
 
+            if i != len(data) - 1:
 
+                ffi = ffi + f"{data[i]},"
+
+            else:
+                # adding data no coma
+                ffi += f"{data[i]}"
+        file.write(ffi)
 
 
 
@@ -110,10 +120,12 @@ class fileIntrations:
         #looping thru the values
         for x in range(len(data)):
             for y in range(len(data[x])):
+                print(data[x])
                 #cheaking if at end of line
                 if y != len(data[x])-1:
                     #ading coama plus data
                     ffi = ffi + f"{data[x][y]},"
+
                 else:
                     #adding data no coma
                     ffi += f"{data[x][y]}"
