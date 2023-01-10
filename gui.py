@@ -123,10 +123,10 @@ class display:
             elif self.data[i][0] == "4b":
                 self.canvis.coords(self.storage["{0}".format(str(self.data[i][1]))],
                                    self.data[i][2] * self.winx / self.incrment,
-                                   self.data[i][3] * self.winy / self.incrment)
-                #,
-                #self.data[i][4] * self.winx / self.incrment,
-                #self.data[i][5] * self.winy / self.incrment
+                                   self.data[i][3] * self.winy / self.incrment,
+                                    self.data[i][4] * self.winx / self.incrment,
+                                    self.data[i][5] * self.winy / self.incrment)
+
                 if self.mx >= self.data[i][2] and self.mx <= self.data[i][4]:
                     if self.my >= self.data[i][3] and self.my <= self.data[i][5]:
                         if self.mouseP == True:
@@ -153,6 +153,14 @@ class display:
                     self.canvis.itemconfig(self.extra['{0}'.format(str(self.data[i][1]))], text=self.data[i][8])
                     if self.lastkey == "\b":
                         self.data[i][8] = self.data[i][8][:-2]
+                elif self.data[i][0] == "4d":
+                    if self.mx >= self.data[i][2] and self.mx <= self.data[i][4]:
+                        if self.my >= self.data[i][3] and self.my <= self.data[i][5]:
+                            if self.data[i][7] == False:
+                                self.data[i][6]()
+                                self.data[i][7] = True
+                            else:
+                                self.data[i][7] = False
 
                 self.canvis.itemconfig(self.extra["{0}".format(str(self.data[i][1]))],
                                        font=("Purisa", int((((self.data[i][2] - self.data[i][4]) + (
@@ -204,8 +212,12 @@ class display:
         self.data.append(["4a", tag, x1, y1, x2, y2, funct])
 
         self.numb += 1
+    def mouseover(self, tag, x1, y1, x2, y2, funct):
+        self.location['{0}'.format(str(tag))] = self.numb
+        self.data.append(["4d", tag, x1, y1, x2, y2, funct,False])
 
-    def button(self, tag, x1, y1, x2, y2, funct, fill="#ffffff", stroke="#000000", Text=None,visable=True):
+        self.numb += 1
+    def button(self, tag, x1, y1, x2, y2, funct, fill="#ffffff", stroke="#000000", Text=None,visable=True,textsize=10):
         self.storage['{0}'.format(str(tag))] = self.canvis.create_rectangle(100, 100, 100, 100, fill=fill,
                                                                                       outline=stroke)
         self.location['{0}'.format(str(tag))] = self.numb
@@ -214,7 +226,7 @@ class display:
         if Text != None:
             self.storage['{0}'.format(str(tag))] = self.canvis.create_text((x2+x1)/2, (y2+y1)/2, text=str(Text))
             self.location['{0}'.format(str(tag))] = self.numb
-            self.data.append([2, tag, (x2+x1)/2, (y2+y1)/2, 30, fill, stroke, Text,visable])
+            self.data.append([2, tag, (x2+x1)/2, (y2+y1)/2, textsize, fill, stroke, Text,visable])
             self.numb += 1
 
     def textbox(self, tag, x1, y1, x2, y2, starttext="text", fill="#ffffff", stroke="#000000"):
