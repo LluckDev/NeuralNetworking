@@ -110,6 +110,10 @@ class display:
                     self.canvis.itemconfig(self.storage["{0}".format(str(self.data[i][1]))],state='hidden')
 
             elif self.data[i][0] == 2:
+                if self.data[i][9]==True:
+                    self.canvis.itemconfig(self.storage["{0}".format(str(self.data[i][1]))],state='normal')
+                else:
+                    self.canvis.itemconfig(self.storage["{0}".format(str(self.data[i][1]))],state='hidden')
                 self.canvis.itemconfig(self.storage["{0}".format(str(self.data[i][1]))],
                                        font=("Purisa", int(self.data[i][4] * (self.winx + self.winy) / 600)))
                 self.canvis.coords(self.storage["{0}".format(str(self.data[i][1]))],
@@ -132,6 +136,10 @@ class display:
                     self.data[i][7] = False
 
             elif self.data[i][0] == "4b":
+                if self.data[i][9]==True:
+                    self.canvis.itemconfig(self.storage["{0}".format(str(self.data[i][1]))],state='normal')
+                else:
+                    self.canvis.itemconfig(self.storage["{0}".format(str(self.data[i][1]))],state='hidden')
                 self.canvis.coords(self.storage["{0}".format(str(self.data[i][1]))],
                                    self.data[i][2] * self.winx / self.incrment,
                                    self.data[i][3] * self.winy / self.incrment,
@@ -201,7 +209,7 @@ class display:
 
     def text(self, tag, x, y, size, text=10, fill="#ffffff", stroke="#000000", font="Lato",visable=True):
 
-        self.storage['{0}'.format(str(tag))] = self.canvis.create_text(x, y, text=str(text))
+        self.storage['{0}'.format(str(tag))] = self.canvis.create_text(x, y, text=str(text),fill=fill)
         self.location['{0}'.format(str(tag))] = self.numb
         self.data.append([2, tag, x, y, size, fill, stroke, text, font,visable])
         self.numb += 1
