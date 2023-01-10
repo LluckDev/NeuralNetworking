@@ -47,3 +47,12 @@ class checktheme:
 
 
 
+def inZone(x,y,xp,yp,mx,my):
+    if mx >= x and mx<=xp and my >= y and my <= yp:
+
+        return True
+    else:
+        return False
+
+
+
