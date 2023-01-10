@@ -123,9 +123,10 @@ class display:
             elif self.data[i][0] == "4b":
                 self.canvis.coords(self.storage["{0}".format(str(self.data[i][1]))],
                                    self.data[i][2] * self.winx / self.incrment,
-                                   self.data[i][3] * self.winy / self.incrment,
-                                   self.data[i][4] * self.winx / self.incrment,
-                                   self.data[i][5] * self.winy / self.incrment)
+                                   self.data[i][3] * self.winy / self.incrment)
+                #,
+                #self.data[i][4] * self.winx / self.incrment,
+                #self.data[i][5] * self.winy / self.incrment
                 if self.mx >= self.data[i][2] and self.mx <= self.data[i][4]:
                     if self.my >= self.data[i][3] and self.my <= self.data[i][5]:
                         if self.mouseP == True:
