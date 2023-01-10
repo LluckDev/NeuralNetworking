@@ -1,4 +1,3 @@
-from gui import display
 from functions import *
 
 
@@ -50,7 +49,8 @@ class gui:
                 self.topbar.gui.d.rect("file topbar rect",0.5,0.5,3,2.5, fill=self.topbar.gui.theme[2])
                 self.topbar.gui.d.mouseover("file topbar mouse over",0.5,0.5,3,2.5,funct=self.openfilemenu)
             def openfilemenu(self):
-                self.topbar.gui.d.rect("file dropdown background",0.5,3,10,)
+                self.topbar.gui.d.rect("file dropdown background",0.5,3,10,10)
+
 
 
 

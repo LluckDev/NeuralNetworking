@@ -32,14 +32,14 @@ class checktheme:
 
     def darktheme(self):
         self.w.runing = False
-        f1 = open("settings/theme","w")
+        f1 = open("settings/theme", "w")
         f2 = open("settings/themes")
         themes = f.loadFile(f2)
 
         f.closefile1d(f1,themes[0])
     def lighttheme(self):
         self.w.runing = False
-        f1 = open("settings/theme","w")
+        f1 = open("settings/theme", "w")
         f2 = open("settings/themes")
         themes = f.loadFile(f2)
 
