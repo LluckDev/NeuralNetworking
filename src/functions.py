@@ -1,4 +1,4 @@
-import files as file
+from src import files as file
 from gui import display
 
 f = file.fileIntrations()
@@ -7,7 +7,7 @@ f = file.fileIntrations()
 
 
 def getTheme():
-    fi = open("settings/theme")
+    fi = open("../settings/theme")
     x = f.loadFile(fi)
 
     return [x[0][0],x[0][1],x[0][2],x[0][3],x[0][4]]
@@ -15,7 +15,7 @@ def getTheme():
 
 class checktheme:
     def __init__(self):
-        fi = open("settings/theme")
+        fi = open("../settings/theme")
         x = f.loadFile(fi)
         fi.close()
         if x[0][0] == "ask":
@@ -32,15 +32,15 @@ class checktheme:
 
     def darktheme(self):
         self.w.runing = False
-        f1 = open("settings/theme","w")
-        f2 = open("settings/themes")
+        f1 = open("../settings/theme", "w")
+        f2 = open("../settings/themes")
         themes = f.loadFile(f2)
 
         f.closefile1d(f1,themes[0])
     def lighttheme(self):
         self.w.runing = False
-        f1 = open("settings/theme","w")
-        f2 = open("settings/themes")
+        f1 = open("../settings/theme", "w")
+        f2 = open("../settings/themes")
         themes = f.loadFile(f2)
 
         f.closefile1d(f1,themes[1])

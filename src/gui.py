@@ -120,6 +120,17 @@ class display:
                     if self.my >= self.data[i][3] and self.my <= self.data[i][5]:
                         if self.mouseP == True:
                             self.data[i][6]()
+            elif self.data[i][0] == "4d":
+                if self.mx >= self.data[i][2] and self.mx <= self.data[i][4]:
+                    if self.my >= self.data[i][3] and self.my <= self.data[i][5]:
+                        if self.data[i][7] == False:
+                            self.data[i][6]()
+                            self.data[i][7] = True
+                    else:
+                        self.data[i][7] = False
+                else:
+                    self.data[i][7] = False
+
             elif self.data[i][0] == "4b":
                 self.canvis.coords(self.storage["{0}".format(str(self.data[i][1]))],
                                    self.data[i][2] * self.winx / self.incrment,
@@ -153,14 +164,8 @@ class display:
                     self.canvis.itemconfig(self.extra['{0}'.format(str(self.data[i][1]))], text=self.data[i][8])
                     if self.lastkey == "\b":
                         self.data[i][8] = self.data[i][8][:-2]
-                elif self.data[i][0] == "4d":
-                    if self.mx >= self.data[i][2] and self.mx <= self.data[i][4]:
-                        if self.my >= self.data[i][3] and self.my <= self.data[i][5]:
-                            if self.data[i][7] == False:
-                                self.data[i][6]()
-                                self.data[i][7] = True
-                            else:
-                                self.data[i][7] = False
+
+
 
                 self.canvis.itemconfig(self.extra["{0}".format(str(self.data[i][1]))],
                                        font=("Purisa", int((((self.data[i][2] - self.data[i][4]) + (
