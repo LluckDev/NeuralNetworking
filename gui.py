@@ -206,10 +206,15 @@ class display:
 
     def button(self, tag, x1, y1, x2, y2, funct, fill="#ffffff", stroke="#000000", Text=None,visable=True):
         self.storage['{0}'.format(str(tag))] = self.canvis.create_rectangle(100, 100, 100, 100, fill=fill,
-                                                                            outline=stroke)
+                                                                                      outline=stroke)
         self.location['{0}'.format(str(tag))] = self.numb
         self.data.append(["4b", tag, x1, y1, x2, y2, fill, stroke, funct,visable])
         self.numb += 1
+        if Text != None:
+            self.storage['{0}'.format(str(tag))] = self.canvis.create_text((x2+x1)/2, (y2+y1)/2, text=str(Text))
+            self.location['{0}'.format(str(tag))] = self.numb
+            self.data.append([2, tag, (x2+x1)/2, (y2+y1)/2, 30, fill, stroke, Text,visable])
+            self.numb += 1
 
     def textbox(self, tag, x1, y1, x2, y2, starttext="text", fill="#ffffff", stroke="#000000"):
         self.storage['{0}'.format(str(tag))] = self.canvis.create_rectangle(100, 100, 100, 100, fill=fill,
