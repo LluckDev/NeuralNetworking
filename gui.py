@@ -294,3 +294,7 @@ class display:
 
     def addcolorpalette(self,tag,color):
         self.cp[tag] = color
+    def changecolor(self,tag,color):
+        tagloc = self.location["{0}".format(str(tag))]
+        self.data[tagloc][6] = color
+        self.canvis.itemconfig(self.storage['{0}'.format(str(tag))], fill=color)
