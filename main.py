@@ -66,44 +66,59 @@ class gui:
                 self.newt()
 
             def update_topbar_file(self):
+                #mouseX
                 mx = self.topbar.gui.d.mx
+                #mouseY
                 my = self.topbar.gui.d.my
+                #checking if mouse is in area
                 if inZone(self.sx, 0, 0.5+self.x, 3+self.y,mx,my) == False :
                     #print("hi")
+                    #if its not hiding the file dropdown background
                     self.topbar.gui.d.setpos("file dropdown background", 8, False)
+                    #uslecting fiel button
                     self.topbar.gui.d.changecolor("file topbar rect", self.topbar.gui.theme[0])
 
                 #set on and off here for the menu items
+                #if dropdown is down
                 if  self.topbar.gui.d.get("file dropdown background",8) == True:
+                    #show dropdown items
                     self.topbar.gui.d.setpos("new file toolbar text", 9, True)
                     self.topbar.gui.d.setpos("new file topbar button",9,True)
                 else:
+                    #hide sropdown items
                     self.topbar.gui.d.setpos("new file toolbar text", 9, False)
                     self.topbar.gui.d.setpos("new file topbar button", 9, False)
-
+                #if mouse is in area
                 if inZone(self.sx+0.3,(0*2.5)+3.2,self.sx+self.x-0.3,(0*2)+5.2,mx,my):
+                    #select
                     self.topbar.gui.d.changecolor("new file topbar button",self.topbar.gui.theme[5])
                 else:
+                    #deselct
                     self.topbar.gui.d.changecolor("new file topbar button", self.topbar.gui.theme[0])
 
 
 
 
             def openfilemenu(self):
+                #called when your mouse is over file button
+                #closes other dropdowns
                 self.topbar.closepopups()
+                #drops dropdown
                 self.topbar.gui.d.setpos("file dropdown background",8,True)
                 self.topbar.gui.d.changecolor("file topbar rect", self.topbar.gui.theme[5])
             def closepopup(self):
+                #closes dropdown
                 self.topbar.gui.d.setpos("file dropdown background", 8, False)
                 self.topbar.gui.d.changecolor("file topbar rect", self.topbar.gui.theme[0])
 
             def newt(self):
+                #new item on list
                 listItem = 0
                 self.topbar.gui.d.button("new file topbar button",self.sx+0.3,(listItem*2.5)+3.2,self.sx+self.x-0.3,(listItem*2)+5.2,self.newop,fill=[self.topbar.gui.theme[0]],visable=False)
                 self.topbar.gui.d.text("new file toolbar text",((self.sx+0.3)+(self.sx+self.x-0.3))/2,(((listItem*2.5)+3.2)+((listItem*2)+5.2))/2,3,text="make new file",fill=self.topbar.gui.theme[3],visable=False)
 
             def newop(self):
-                #new oparation
+                #gets called wen tou click on the new button
                 print("click")
 
 
