@@ -149,7 +149,10 @@ class display:
                 if self.mx >= self.data[i][2] and self.mx <= self.data[i][4]:
                     if self.my >= self.data[i][3] and self.my <= self.data[i][5]:
                         if self.mouseP == True:
-                            self.data[i][8]()
+                            if self.data[i][10] == None:
+                                self.data[i][8]()
+                            else:
+                                self.data[i][8](self.data[i][10])
             elif self.data[i][0] == "4c":
                 self.canvis.coords(self.storage["{0}".format(str(self.data[i][1]))],
                                    self.data[i][2] * self.winx / self.incrment,
@@ -234,14 +237,20 @@ class display:
         self.storage['{0}'.format(str(tag))] = self.canvis.create_rectangle(100, 100, 100, 100, fill=fill,
                                                                                       outline=stroke)
         self.location['{0}'.format(str(tag))] = self.numb
-        self.data.append(["4b", tag, x1, y1, x2, y2, fill, stroke, funct,visable])
+        self.data.append(["4b", tag, x1, y1, x2, y2, fill, stroke, funct,visable,None])
         self.numb += 1
         if Text != None:
             self.storage['{0}'.format(str(tag))] = self.canvis.create_text((x2+x1)/2, (y2+y1)/2, text=str(Text))
             self.location['{0}'.format(str(tag))] = self.numb
             self.data.append([2, tag, (x2+x1)/2, (y2+y1)/2, textsize, fill, stroke, Text,visable])
             self.numb += 1
+    def buttonM(self,returner, tag, x1, y1, x2, y2, funct, fill="#ffffff", stroke="#000000", Text=None,visable=True,textsize=10):
 
+        self.storage['{0}'.format(str(tag))] = self.canvis.create_rectangle(100, 100, 100, 100, fill=fill,
+                                                                                      outline=stroke)
+        self.location['{0}'.format(str(tag))] = self.numb
+        self.data.append(["4b", tag, x1, y1, x2, y2, fill, stroke, funct,visable,returner])
+        self.numb += 1
     def textbox(self, tag, x1, y1, x2, y2, starttext="text", fill="#ffffff", stroke="#000000"):
         self.storage['{0}'.format(str(tag))] = self.canvis.create_rectangle(100, 100, 100, 100, fill=fill,
                                                                             outline=stroke)
