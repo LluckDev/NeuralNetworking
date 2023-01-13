@@ -20,13 +20,14 @@ for i in range(len(stitle)):
             i+=1
         break
 del url,page,html,start_index,end_index,title,stitle
-
+#TODO: move to functions
 iversion = "v1.0.0 Alpha"
 class gui:
     def reset(self):
         self.d.window.destroy()
         del self.d
         self.__init__()
+        #TODO: add way of saving
     def __init__(self):
         checktheme()
 
@@ -72,6 +73,8 @@ class gui:
             self.edit = self.topbar_item("edit", 2, self)
             self.view = self.topbar_item("view",3,self)
             self.wizards = self.topbar_item("wizards",4,self)
+            #TODO: add more items
+
 
 
 
