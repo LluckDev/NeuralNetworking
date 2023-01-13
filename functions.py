@@ -20,7 +20,7 @@ class checktheme:
         fi.close()
 
         if x[0][0] == "ask" or force:
-            self.w = display(screenX=400, screenY=250, fullscreen=False, title="chose theme")
+            self.w = display(screenX=400, screenY=250, fullscreen=False, title="chose theme",icon="settings/wizerdNN.ico")
 
             self.w.button("dark", 10, 30, 45, 90, self.darktheme, fill="#373737",stroke="#000000")
             self.w.text("dark text",25,60,30,text="dark",fill="#000000")
