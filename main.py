@@ -71,6 +71,7 @@ class gui:
             self.file = self.topbar_item("file",1,self)
             self.edit = self.topbar_item("edit", 2, self)
             self.view = self.topbar_item("view",3,self)
+            self.wizards = self.topbar_item("wizards",4,self)
 
 
 
@@ -78,20 +79,28 @@ class gui:
 
 
 
+
+            self.wizards.newDDoption("theme", self.themeWizzerd)
+
+
+
             self.file.bild()
             self.edit.bild()
             self.view.bild()
+            self.wizards.bild()
 
 
         def update_topbar(self):
             self.file.update_topbar_funct()
             self.edit.update_topbar_funct()
             self.view.update_topbar_funct()
+            self.wizards.update_topbar_funct()
 
         def closepopups(self):
             self.file.closepopup()
             self.edit.closepopup()
-
+            self.view.closepopup()
+            self.wizards.closepopup()
         class topbar_item:
             def __init__(self, name, xNumber, down):
                 self.name = name
@@ -190,8 +199,7 @@ class gui:
                                            ((self.sx + 0.3) + (self.sx + self.x - 0.3)) / 2,
                                            (((listItem * 2.5) + 3.2) + ((listItem * 2.5) + 5.2)) / 2, 3, text=f"{name}",
                                            fill=self.topbar.gui.theme[3], visable=False)
-                    print(f"{name} {self.name} topbar button", self.sx + 0.3, (listItem * 2) + 3.2,
-                                             self.sx + self.x - 0.3, (listItem * 2) + 5.2)
+
 
 
 
