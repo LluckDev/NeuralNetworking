@@ -120,7 +120,7 @@ class fileIntrations:
         #looping thru the values
         for x in range(len(data)):
             for y in range(len(data[x])):
-                print(data[x])
+
                 #cheaking if at end of line
                 if y != len(data[x])-1:
                     #ading coama plus data

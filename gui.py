@@ -62,6 +62,7 @@ class display:
 
     def close(self):
         self.runing = False
+        self.window.destroy()
 
     def update(self):
         self.winy = self.window.winfo_height()
