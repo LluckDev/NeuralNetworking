@@ -48,11 +48,12 @@ class globals:
 
 
 
+
 class gui:
     def reset(self):
         self.d.window.destroy()
-        self.d.storage = []
-        del self.d
+
+
         self.__init__()
         #TODO: add way of saving
     def __init__(self):
@@ -62,10 +63,11 @@ class gui:
 
 
 
+
         # theme = [back,mid,front,text,highlight]
         self.theme = getTheme()
         self.d = display(screenX=1600, screenY=800, bgc=self.theme[0], title="neural networking",icon="settings/Untitled (1).ico")
-        self.performanceSidebar = self.performanceSidebar(self)
+        self.performanceSidebar1 = self.performanceSidebar(self)
         self.topBar = self.topbar(self)
 
         self.updategui()
@@ -83,8 +85,8 @@ class gui:
 
                 lasttime = currenttime
 
-                self.performanceSidebar.caclateUsages(fpslasttime)
-            self.performanceSidebar.updatePerformanceSidbar()
+                self.performanceSidebar1.caclateUsages(fpslasttime)
+            self.performanceSidebar1.updatePerformanceSidbar()
             fpslasttime = currenttime
 
 
@@ -95,8 +97,8 @@ class gui:
             self.gui.d.rect("performance sidbar BG",0,0,self.width,100,fill=self.gui.theme[1])
             #gen
             for i in range(9):
-                print(i)
-                self.gui.d.text(f"cpu/ram gen text N{i}",self.width/2,(i*2)+12,1.5,text=90-(i*10))
+
+                self.gui.d.text(f"cpu/ram gen text N{i}",self.width/2,(i*2)+12,2,text=90-(i*10),fill=self.gui.theme[3])
 
             #FPS
             self.gui.d.rect("preformance sidbar FPS Highlight",self.width-.5,3.5,0.5,8,fill=self.gui.theme[2])
@@ -115,7 +117,7 @@ class gui:
                             fill=self.gui.theme[0])
             self.gui.d.rect("preformance sidebar RAM usage display", (self.width / 2) + 0.5, 9.9, 4, 30,
                             fill="#00ff66")
-            self.gui.d.text("preformance sidbar RAM usage label", (self.width / 2)+(((self.width/2))/2), 31, 2.5, text="RAM")
+            self.gui.d.text("preformance sidbar RAM usage label", (self.width / 2)+(((self.width/2))/2), 31, 2.5, text="RAM",fill=self.gui.theme[3])
             for i in range(19):
                 self.gui.d.line(f"preformance sidebar line RAM {i}", (self.width / 2) + 0.8, i + 11, (self.width / 2) + .5,
                                 i + 11, color=self.gui.theme[2])
@@ -142,17 +144,17 @@ class gui:
             self.cpuUsage = psutil.cpu_percent(0.003)+20
             self.gui.d.settype("preformance sidebar cpu usage display",y=30-(self.cpuUsage/6))
             if self.cpuUsage >= 100:
-                self.gui.d.settype("preformance sidebar cpu usage display",fill="#ff5555")
+                self.gui.d.settype("preformance sidebar cpu usage display",fill=self.gui.theme[7])
             else:
-                self.gui.d.settype("preformance sidebar cpu usage display", fill="#00ff66")
+                self.gui.d.settype("preformance sidebar cpu usage display", fill=self.gui.theme[6])
 
             #RAM
             self.ramUsage = psutil.virtual_memory()[2]
             self.gui.d.settype("preformance sidebar RAM usage display", y=30 - (self.ramUsage / 5))
             if self.ramUsage >= 70:
-                self.gui.d.settype("preformance sidebar RAM usage display", fill="#ff5555")
+                self.gui.d.settype("preformance sidebar RAM usage display", fill=self.gui.theme[7])
             else:
-                self.gui.d.settype("preformance sidebar RAM usage display", fill="#00ff66")
+                self.gui.d.settype("preformance sidebar RAM usage display", fill=self.gui.theme[6])
 
 
 
@@ -176,7 +178,7 @@ class gui:
 
         def settings(self):
             self.gui.d.mouseP = False
-            print("hi")
+
 
             s = settings(self)
 
@@ -186,8 +188,12 @@ class gui:
 
 
 
+
+
+
         def __init__(self,down):
             self.gui = down
+
 
 
 
@@ -239,8 +245,9 @@ class gui:
             self.nnsite.bild()
 
 
+
         def update_topbar(self):
-            print(self.gui.d.storage)
+
             self.file.update_topbar_funct()
             self.edit.update_topbar_funct()
             self.view.update_topbar_funct()
@@ -271,13 +278,8 @@ class gui:
 
 
 
-
-
-def start():
-
-    g = gui()
+g = gui()
 
 
 
-if __name__ == '__main__':
-    start()
+
