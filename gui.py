@@ -226,9 +226,9 @@ class display:
         self.data.append([4, tag, x, y, xp, yp, fill, stroke, visable])
         self.numb += 1
 
-    def text(self, tag, x, y, size, text=10, fill="#ffffff", stroke="#000000", font="Lato",visable=True):
+    def text(self, tag, x, y, size, text=10, fill="#ffffff", stroke="#000000", font="Lato",visable=True,angle = 0):
 
-        self.storage['{0}'.format(str(tag))] = self.canvis.create_text(x, y, text=str(text),fill=fill)
+        self.storage['{0}'.format(str(tag))] = self.canvis.create_text(x, y, text=str(text),fill=fill,angle=angle)
         self.location['{0}'.format(str(tag))] = self.numb
         self.data.append([2, tag, x, y, size, fill, stroke, text, font,visable])
         self.numb += 1
