@@ -83,9 +83,10 @@ class display:
             self.sendkeyF["keys"](self.lastkey)
             self.keypressed = False
 
+        i = 0
+        while i < self.numb:
 
 
-        for i in range(self.numb):
 
             if self.data[i][0] == 4:
                 self.canvis.coords(self.storage["{0}".format(str(self.data[i][1]))],
@@ -117,6 +118,15 @@ class display:
                     self.canvis.itemconfig(self.storage["{0}".format(str(self.data[i][1]))],state='hidden')
                 self.canvis.itemconfig(self.storage["{0}".format(str(self.data[i][1]))],
                                        font=("Purisa", int(self.data[i][4] * (self.winx + self.winy) / 600)))
+                self.canvis.coords(self.storage["{0}".format(str(self.data[i][1]))],
+                                   self.data[i][2] * self.winx / self.incrment,
+                                   self.data[i][3] * self.winy / self.incrment)
+            elif self.data[i][0] == "2a":
+                if self.data[i][5]==True:
+                    self.canvis.itemconfig(self.storage["{0}".format(str(self.data[i][1]))],state='normal')
+                else:
+                    self.canvis.itemconfig(self.storage["{0}".format(str(self.data[i][1]))],state='hidden')
+
                 self.canvis.coords(self.storage["{0}".format(str(self.data[i][1]))],
                                    self.data[i][2] * self.winx / self.incrment,
                                    self.data[i][3] * self.winy / self.incrment)
@@ -188,12 +198,13 @@ class display:
                                        2]) * self.winx / self.incrment,
                                    (((self.data[i][5] - self.data[i][3]) / 2) + self.data[i][
                                        3]) * self.winy / self.incrment)
+            i+=1
 
         self.window.update_idletasks()
         self.window.update()
 
     def line(self, tag, x, y, xp, yp, color="#000000", visable=True):
-        self.storage["{0}".format(str(tag))] = self.canvis.create_line(100, 100, 100, 100)
+        self.storage["{0}".format(str(tag))] = self.canvis.create_line(100, 100, 100, 100,fill=color)
         self.location["{0}".format(str(tag))] = self.numb
         self.data.append([4, tag, x, y, xp, yp, color, "#000000", visable])
         self.numb += 1
@@ -260,6 +271,11 @@ class display:
         self.numb += 1
         self.extra['{0}'.format(str(tag))] = self.canvis.create_text(100, 100, text=starttext)
 
+    def image(self,tag,x,y,Ipath,ancor="center",visable=True):
+        self.storage['{0}'.format(str(tag))] = self.canvis.create_image(x,y,image=Ipath,anchor=ancor)
+        self.location['{0}'.format(str(tag))] = self.numb
+        self.data.append(["2a", tag,x,y,ancor,visable])
+        self.numb+=1
     def mouseX(self):
         return self.window.winfo_pointerx()
 
@@ -316,3 +332,6 @@ class display:
         tagloc = self.location["{0}".format(str(tag))]
         self.data[tagloc][6] = color
         self.canvis.itemconfig(self.storage['{0}'.format(str(tag))], fill=color)
+
+
+

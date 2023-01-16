@@ -1,7 +1,15 @@
 from functions import *
 from urllib.request import urlopen
-import  re
-url = "https://github.com/henryur/nearlnetworking"
+import webbrowser
+import time
+import psutil
+import threading
+from threading import Lock
+
+
+
+
+url = "https://github.com/henryur/NeuralNetworking"
 page = urlopen(url)
 html = page.read().decode("utf-8")
 start_index = html.find("<title>") + len("<title>")
@@ -20,27 +28,140 @@ for i in range(len(stitle)):
             i+=1
         break
 del url,page,html,start_index,end_index,title,stitle
-#TODO: move to functions
 iversion = "v1.0.0 Alpha"
+
+class globals:
+    def __init__(self,lock):
+        self.lock = lock
+        with lock:
+
+            self.vars = {}
+    def newVar(self,ident,value=None):
+        with self.lock:
+            self.vars[ident] = value
+    def getVar(self,ident):
+        with self.lock:
+            return self.vars[ident]
+    def setvar(self,ident,value):
+        with self.lock:
+            self.vars[ident] = value
+
+
+
 class gui:
     def reset(self):
         self.d.window.destroy()
+        self.d.storage = []
         del self.d
         self.__init__()
         #TODO: add way of saving
     def __init__(self):
         checktheme()
 
+
+
+
+
         # theme = [back,mid,front,text,highlight]
         self.theme = getTheme()
-        self.d = display(screenX=800, screenY=600, bgc=self.theme[0], title="neural networking",icon="settings/Untitled (1).ico")
+        self.d = display(screenX=1600, screenY=800, bgc=self.theme[0], title="neural networking",icon="settings/Untitled (1).ico")
+        self.performanceSidebar = self.performanceSidebar(self)
         self.topBar = self.topbar(self)
+
         self.updategui()
     def updategui(self):
 
+        lasttime=0
+        fpslasttime = 0
+        currenttime=0
         while self.d.runing == True:
-            self.d.update()
+            currenttime = time.time()
+
             self.topBar.update_topbar()
+            self.d.update()
+            if((currenttime-lasttime) >= 0.1):
+
+                lasttime = currenttime
+
+                self.performanceSidebar.caclateUsages(fpslasttime)
+            self.performanceSidebar.updatePerformanceSidbar()
+            fpslasttime = currenttime
+
+
+    class performanceSidebar:
+        def __init__(self,down):
+            self.gui = down
+            self.width = 4.5
+            self.gui.d.rect("performance sidbar BG",0,0,self.width,100,fill=self.gui.theme[1])
+            #gen
+            for i in range(9):
+                print(i)
+                self.gui.d.text(f"cpu/ram gen text N{i}",self.width/2,(i*2)+12,1.5,text=90-(i*10))
+
+            #FPS
+            self.gui.d.rect("preformance sidbar FPS Highlight",self.width-.5,3.5,0.5,8,fill=self.gui.theme[2])
+            self.gui.d.text("preformance sidebar FPS text",self.width/2,5,5,text="0",fill=self.gui.theme[3])
+            self.gui.d.text("preformance sidebar FPS Label",self.width/2,7,3,text="FPS",fill=self.gui.theme[3])
+            #CPU
+            self.cpuUsage = psutil.cpu_percent(0.001)
+            self.gui.d.rect("preformance sidbar cpu usage bg",(self.width/2)-0.5,10,0.5,30,fill=self.gui.theme[0])
+            self.gui.d.rect("preformance sidebar cpu usage display",(self.width/2)-0.5,9.9,0.5,30,fill="#00ff66")
+            self.gui.d.text("preformance sidbar cpu usage label",(((self.width/2))/2),31,2.5,text="CPU",fill=self.gui.theme[3])
+            for i in range(19):
+                self.gui.d.line(f"preformance sidebar line {i}",(self.width/2)-0.8,i+11,(self.width/2)-.5,i+11,color=self.gui.theme[2])
+            #RAM
+            self.ramUsage = 0
+            self.gui.d.rect("preformance sidbar RAM usage bg", (self.width / 2) + 0.5, 10, 4, 30,
+                            fill=self.gui.theme[0])
+            self.gui.d.rect("preformance sidebar RAM usage display", (self.width / 2) + 0.5, 9.9, 4, 30,
+                            fill="#00ff66")
+            self.gui.d.text("preformance sidbar RAM usage label", (self.width / 2)+(((self.width/2))/2), 31, 2.5, text="RAM")
+            for i in range(19):
+                self.gui.d.line(f"preformance sidebar line RAM {i}", (self.width / 2) + 0.8, i + 11, (self.width / 2) + .5,
+                                i + 11, color=self.gui.theme[2])
+
+
+
+            #fps vars
+            self.curenttime = 0
+            self.lasttime = 0
+            self.fps = 0
+
+
+        def updatePerformanceSidbar(self):
+            pass
+        def caclateUsages(self, lasttime):
+
+
+            self.curenttime = time.time()
+            self.fps = int(1/(self.curenttime-lasttime))
+            lasttime = self.curenttime
+            self.gui.d.settype("preformance sidebar FPS text",text=self.fps,fill=self.gui.theme[3])
+
+            #CPU
+            self.cpuUsage = psutil.cpu_percent(0.003)+20
+            self.gui.d.settype("preformance sidebar cpu usage display",y=30-(self.cpuUsage/6))
+            if self.cpuUsage >= 100:
+                self.gui.d.settype("preformance sidebar cpu usage display",fill="#ff5555")
+            else:
+                self.gui.d.settype("preformance sidebar cpu usage display", fill="#00ff66")
+
+            #RAM
+            self.ramUsage = psutil.virtual_memory()[2]
+            self.gui.d.settype("preformance sidebar RAM usage display", y=30 - (self.ramUsage / 5))
+            if self.ramUsage >= 70:
+                self.gui.d.settype("preformance sidebar RAM usage display", fill="#ff5555")
+            else:
+                self.gui.d.settype("preformance sidebar RAM usage display", fill="#00ff66")
+
+
+
+
+
+
+
+
+
     class topbar:
         def themeWizzerd(self):
             self.gui.d.mouseP = False
@@ -52,6 +173,17 @@ class gui:
             self.gui.theme = getTheme()
             del t
             self.gui.reset()
+
+        def settings(self):
+            self.gui.d.mouseP = False
+            print("hi")
+
+            s = settings(self)
+
+        def openNNwebGIT(self):
+            giturl = "https://github.com/henryur/NeuralNetworking"
+            webbrowser.open(giturl)
+
 
 
         def __init__(self,down):
@@ -69,21 +201,32 @@ class gui:
 
 
 
-            self.file = self.topbar_item("file",1,self)
-            self.edit = self.topbar_item("edit", 2, self)
-            self.view = self.topbar_item("view",3,self)
-            self.wizards = self.topbar_item("wizards",4,self)
-            #TODO: add more items
+            self.file = topbar_item("file",1,self)
+            self.edit = topbar_item("edit", 2, self)
+            self.view = topbar_item("view",3,self)
+            self.wizards = topbar_item("wizards",4,self)
+            self.settings = topbar_item("settings",5,self)
+            self.git = topbar_item("git",6,self)
+            self.nnsite = topbar_item("NN website",7,self)
 
 
 
 
+            #view options in order
             self.view.newDDoption("theme",self.themeWizzerd)
 
 
 
-
+            #wizards options in order
             self.wizards.newDDoption("theme", self.themeWizzerd)
+
+
+            #settings otions in order
+
+
+            #nn site options in order
+            self.nnsite.newDDoption("open github page",self.openNNwebGIT)
+
 
 
 
@@ -91,117 +234,31 @@ class gui:
             self.edit.bild()
             self.view.bild()
             self.wizards.bild()
+            self.settings.bild()
+            self.git.bild()
+            self.nnsite.bild()
 
 
         def update_topbar(self):
+            print(self.gui.d.storage)
             self.file.update_topbar_funct()
             self.edit.update_topbar_funct()
             self.view.update_topbar_funct()
             self.wizards.update_topbar_funct()
+            self.settings.update_topbar_funct()
+            self.nnsite.update_topbar_funct()
+            self.git.update_topbar_funct()
 
         def closepopups(self):
             self.file.closepopup()
             self.edit.closepopup()
             self.view.closepopup()
             self.wizards.closepopup()
-        class topbar_item:
-            def __init__(self, name, xNumber, down):
-                self.name = name
-                self.topbar = down
-                self.dropdownItems = {}
-                self.dropdownItemsNames = []
-
-                self.NofL = 0
-
-                self.sx = 0.5 + (xNumber * 4)
-                self.y = (self.NofL * 2.5)
-                self.x = 10
+            self.settings.closepopup()
+            self.git.closepopup()
+            self.nnsite.closepopup()
 
 
-            def openfilemenu(self):
-                #called when your mouse is over file button
-                #closes other dropdowns
-                self.topbar.closepopups()
-                #drops dropdown
-                self.topbar.gui.d.setpos(f"{self.name} dropdown background",8,True)
-                self.topbar.gui.d.changecolor(f"{self.name} topbar rect", self.topbar.gui.theme[5])
-
-            def newDDoption(self,name,function):
-                # new item on list
-
-                self.NofL+=1
-                self.dropdownItems[f"{name}"] = function
-                self.dropdownItemsNames.append(name)
-
-
-            def update_topbar_funct(self):
-                #mouseX
-                mx = self.topbar.gui.d.mx
-                #mouseY
-                my = self.topbar.gui.d.my
-                #checking if mouse is in area
-                if inZone(self.sx, 0, self.sx+self.x, 3 + (self.NofL*2.5),mx,my) == False :
-                    #print("hi")
-                    #if its not hiding the file dropdown background
-                    self.topbar.gui.d.setpos(f"{self.name} dropdown background", 8, False)
-                    #uslecting fiel button
-                    self.topbar.gui.d.changecolor(f"{self.name} topbar rect", self.topbar.gui.theme[0])
-
-                #set on and off here for the menu items
-                #if dropdown is down
-                if  self.topbar.gui.d.get(f"{self.name} dropdown background",8) == True:
-                    #show dropdown items
-                    for i in range(self.NofL):
-                        name = self.dropdownItemsNames[i]
-                        self.topbar.gui.d.setpos(f"{name} {self.name} topbar button", 9, True)
-                        self.topbar.gui.d.setpos(f"{name} {self.name} toolbar text", 9, True)
-
-                else:
-                    #hide sropdown items
-                    for i in range(self.NofL):
-                        name = self.dropdownItemsNames[i]
-                        self.topbar.gui.d.setpos(f"{name} {self.name} topbar button", 9, False)
-                        self.topbar.gui.d.setpos(f"{name} {self.name} toolbar text", 9, False)
-
-                #if mouse is in area
-                for i in range(self.NofL):
-                    name = self.dropdownItemsNames[i]
-                    if inZone(self.sx+0.3,(i*2.5)+3.2,self.sx+self.x-0.3,(i*2)+5.2,mx,my):
-                        self.topbar.gui.d.changecolor(f"{name} {self.name} topbar button", self.topbar.gui.theme[5])
-                    else:
-                        self.topbar.gui.d.changecolor(f"{name} {self.name} topbar button", self.topbar.gui.theme[0])
-
-
-            def checkslected(self,n):
-                if self.topbar.gui.d.get(f"{self.name} dropdown background",8) == True:
-                    name = self.dropdownItemsNames[n]
-                    self.dropdownItems[name]()
-            def closepopup(self):
-                self.topbar.gui.d.setpos(f"{self.name} dropdown background", 8,False)
-                self.topbar.gui.d.changecolor(f"{self.name} topbar rect", self.topbar.gui.theme[0])
-            def bild(self):
-                self.topbar.gui.d.rect(f"{self.name} topbar rect", self.sx, 0, self.sx + 3.9, 3,
-                                       fill=self.topbar.gui.theme[0])
-                self.topbar.gui.d.mouseover(f"{self.name} topbar mouse over", self.sx, 0.5, self.sx + 2.5, 2.5,
-                                            funct=self.openfilemenu)
-                self.topbar.gui.d.rect(f"{self.name} dropdown background", self.sx, 3, self.sx + self.x, 3 + (self.NofL*2.5),
-                                       visable=False,
-                                       fill=self.topbar.gui.theme[1])
-                self.topbar.gui.d.text(f"{self.name} toptbar text", ((self.sx)+(self.sx + 3.9))/2, (2.5 / 2) + 0.3, 3, text=f"{self.name}",
-                                       fill=self.topbar.gui.theme[3])
-                for i in range(self.NofL):
-
-
-                    name = self.dropdownItemsNames[i]
-                    function = self.dropdownItems[f"{name}"]
-                    listItem = i
-                    self.topbar.gui.d.buttonM(i,f"{name} {self.name} topbar button", self.sx + 0.3, (listItem * 2.5) + 3.2,
-                                             self.sx + self.x - 0.3, (listItem * 2.5) + 5.2, self.checkslected,
-                                             fill=[self.topbar.gui.theme[0]], visable=False)
-                    self.topbar.gui.d.text(f"{name} {self.name} toolbar text",
-                                           ((self.sx + 0.3) + (self.sx + self.x - 0.3)) / 2,
-                                           (((listItem * 2.5) + 3.2) + ((listItem * 2.5) + 5.2)) / 2, 3, text=f"{name}",
-                                           fill=self.topbar.gui.theme[3], visable=False)
 
 
 
@@ -218,8 +275,9 @@ class gui:
 
 def start():
 
-
     g = gui()
+
+
 
 if __name__ == '__main__':
     start()
