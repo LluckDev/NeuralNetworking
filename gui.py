@@ -80,7 +80,11 @@ class display:
         self.my = (self.incrment / self.winy) * self.my
 
         if self.keypressed:
-            self.sendkeyF["keys"](self.lastkey)
+            try:
+                self.sendkeyF[self.lastkey]()
+            except:
+                pass
+
             self.keypressed = False
 
         i = 0
@@ -323,8 +327,8 @@ class display:
         tagloc = self.location["{0}".format(str(tag))]
         return self.data[tagloc][loc]
 
-    def sendkeys(self,function):
-        self.sendkeyF["keys"] = function
+    def sendkeys(self,key,function):
+        self.sendkeyF[key] = function
 
     def addcolorpalette(self,tag,color):
         self.cp[tag] = color
