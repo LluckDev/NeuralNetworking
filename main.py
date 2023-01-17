@@ -69,6 +69,7 @@ class gui:
         self.d = display(screenX=1600, screenY=800, bgc=self.theme[0], title="neural networking",icon="settings/Untitled (1).ico")
         self.performanceSidebar1 = self.performanceSidebar(self)
         self.topBar = self.topbar(self)
+        self.inspectSidebar1 = self.inspectSidebar(self)
 
         self.updategui()
     def updategui(self):
