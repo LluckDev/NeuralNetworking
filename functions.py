@@ -113,7 +113,7 @@ class topbar_item:
             #if its not hiding the file dropdown background
             self.topbar.gui.d.setpos(f"{self.name} dropdown background", 8, False)
             #uslecting fiel button
-            self.topbar.gui.d.changecolor(f"{self.name} topbar rect", self.topbar.gui.theme[0])
+            self.topbar.gui.d.changecolor(f"{self.name} topbar rect", self.topbar.gui.theme[1])
 
         #set on and off here for the menu items
         #if dropdown is down
@@ -148,13 +148,13 @@ class topbar_item:
             self.dropdownItems[name]()
     def closepopup(self):
         self.topbar.gui.d.setpos(f"{self.name} dropdown background", 8,False)
-        self.topbar.gui.d.changecolor(f"{self.name} topbar rect", self.topbar.gui.theme[0])
+        self.topbar.gui.d.changecolor(f"{self.name} topbar rect", self.topbar.gui.theme[1])
     def clear(self):
         del self.dropdownItems
         del self.dropdownItemsNames
     def bild(self):
-        self.topbar.gui.d.rect(f"{self.name} topbar rect", self.sx, 0, self.sx + self.ex-0.1, 3,
-                               fill=self.topbar.gui.theme[0])
+        self.topbar.gui.d.rect(f"{self.name} topbar rect", self.sx, 0, self.sx + self.ex-0.01, 3,
+                               fill=self.topbar.gui.theme[1],stroke=self.topbar.gui.theme[0])
         self.topbar.gui.d.mouseover(f"{self.name} topbar mouse over", self.sx, 0.5, self.sx + 2.5, 2.5,
                                     funct=self.openfilemenu)
         self.topbar.gui.d.rect(f"{self.name} dropdown background", self.sx, 3, self.sx + self.x, 3 + (self.NofL*2.5),
@@ -170,11 +170,11 @@ class topbar_item:
             listItem = i
             self.topbar.gui.d.buttonM(i,f"{name} {self.name} topbar button", self.sx + 0.3, (listItem * 2.5) + 3.2,
                                      self.sx + self.x - 0.3, (listItem * 2.5) + 5.2, self.checkslected,
-                                     fill=[self.topbar.gui.theme[0]], visable=False)
+                                     fill=[self.topbar.gui.theme[0]], visable=False,stroke=self.topbar.gui.theme[0])
             self.topbar.gui.d.text(f"{name} {self.name} toolbar text",
                                    ((self.sx + 0.3) + (self.sx + self.x - 0.3)) / 2,
                                    (((listItem * 2.5) + 3.2) + ((listItem * 2.5) + 5.2)) / 2, 3, text=f"{name}",
-                                   fill=self.topbar.gui.theme[3], visable=False)
+                                   fill=self.topbar.gui.theme[3], visable=False,stroke=self.topbar.gui.theme[0])
 class settings:
     def __init__(self,down):
         self.topbar = down

@@ -90,6 +90,29 @@ class gui:
             self.performanceSidebar1.updatePerformanceSidbar()
             fpslasttime = currenttime
 
+    class inspectSidebar:
+        def __init__(self,down):
+            self.gui = down
+            self.sideselector()
+
+
+
+
+        def sideselector(self):
+            pass
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     class performanceSidebar:
         def __init__(self,down):
@@ -102,12 +125,12 @@ class gui:
                 self.gui.d.text(f"cpu/ram gen text N{i}",self.width/2,(i*2)+12,2,text=90-(i*10),fill=self.gui.theme[3])
 
             #FPS
-            self.gui.d.rect("preformance sidbar FPS Highlight",self.width-.5,3.5,0.5,8,fill=self.gui.theme[2])
+            self.gui.d.rect("preformance sidbar FPS Highlight",self.width-.5,3.5,0.5,8,fill=self.gui.theme[2],stroke=self.gui.theme[1])
             self.gui.d.text("preformance sidebar FPS text",self.width/2,5,5,text="0",fill=self.gui.theme[3])
             self.gui.d.text("preformance sidebar FPS Label",self.width/2,7,3,text="FPS",fill=self.gui.theme[3])
             #CPU
             self.cpuUsage = psutil.cpu_percent(0.001)
-            self.gui.d.rect("preformance sidbar cpu usage bg",(self.width/2)-0.5,10,0.5,30,fill=self.gui.theme[0])
+            self.gui.d.rect("preformance sidbar cpu usage bg",(self.width/2)-0.5,10,0.5,30,fill=self.gui.theme[0],stroke=self.gui.theme[0])
             self.gui.d.rect("preformance sidebar cpu usage display",(self.width/2)-0.5,9.9,0.5,30,fill="#00ff66")
             self.gui.d.text("preformance sidbar cpu usage label",(((self.width/2))/2),31,2.5,text="CPU",fill=self.gui.theme[3])
             for i in range(19):
@@ -115,10 +138,10 @@ class gui:
             #RAM
             self.ramUsage = 0
             self.gui.d.rect("preformance sidbar RAM usage bg", (self.width / 2) + 0.5, 10, 4, 30,
-                            fill=self.gui.theme[0])
+                            fill=self.gui.theme[0],stroke=self.gui.theme[0])
             self.gui.d.rect("preformance sidebar RAM usage display", (self.width / 2) + 0.5, 9.9, 4, 30,
                             fill="#00ff66")
-            self.gui.d.text("preformance sidbar RAM usage label", (self.width / 2)+(((self.width/2))/2), 31, 2.5, text="RAM",fill=self.gui.theme[3])
+            self.gui.d.text("preformance sidbar RAM usage label", (self.width / 2)+(((self.width/2))/2), 31, 2.5, text="RAM",fill=self.gui.theme[3],)
             for i in range(19):
                 self.gui.d.line(f"preformance sidebar line RAM {i}", (self.width / 2) + 0.8, i + 11, (self.width / 2) + .5,
                                 i + 11, color=self.gui.theme[2])
@@ -215,6 +238,7 @@ class gui:
             self.settings = topbar_item("settings",5,self)
             self.git = topbar_item("git",6,self)
             self.nnsite = topbar_item("NN website",7,self)
+            self.last = topbar_item(" ",8,self)
 
 
 
@@ -244,6 +268,9 @@ class gui:
             self.settings.bild()
             self.git.bild()
             self.nnsite.bild()
+            self.last.bild()
+
+            self.gui.d.line("bottom line topbar",0,3,100,3)
 
 
 
@@ -256,6 +283,7 @@ class gui:
             self.settings.update_topbar_funct()
             self.nnsite.update_topbar_funct()
             self.git.update_topbar_funct()
+            self.last.update_topbar_funct()
 
         def closepopups(self):
             self.file.closepopup()
@@ -265,6 +293,7 @@ class gui:
             self.settings.closepopup()
             self.git.closepopup()
             self.nnsite.closepopup()
+            self.last.closepopup()
 
 
 
