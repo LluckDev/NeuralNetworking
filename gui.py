@@ -110,7 +110,7 @@ class display:
                                    self.data[i][5] * self.winy / self.incrment,
                                    self.data[i][6] * self.winx / self.incrment,
                                    self.data[i][7] * self.winy / self.incrment)
-                if self.data[i][10]==True:
+                if self.data[i][9]==True:
                     self.canvis.itemconfig(self.storage["{0}".format(str(self.data[i][1]))],state='normal')
                 else:
                     self.canvis.itemconfig(self.storage["{0}".format(str(self.data[i][1]))],state='hidden')
@@ -135,10 +135,11 @@ class display:
                                    self.data[i][2] * self.winx / self.incrment,
                                    self.data[i][3] * self.winy / self.incrment)
             elif self.data[i][0] == "4a":
-                if self.mx >= self.data[i][2] and self.mx <= self.data[i][4]:
-                    if self.my >= self.data[i][3] and self.my <= self.data[i][5]:
-                        if self.mouseP == True:
-                            self.data[i][6]()
+                if self.data[i][7]==True:
+                    if self.mx >= self.data[i][2] and self.mx <= self.data[i][4]:
+                        if self.my >= self.data[i][3] and self.my <= self.data[i][5]:
+                            if self.mouseP == True:
+                                self.data[i][6]()
             elif self.data[i][0] == "4d":
                 if self.mx >= self.data[i][2] and self.mx <= self.data[i][4]:
                     if self.my >= self.data[i][3] and self.my <= self.data[i][5]:
@@ -207,13 +208,16 @@ class display:
         self.window.update_idletasks()
         self.window.update()
 
-    def line(self, tag, x, y, xp, yp, color="#000000", visable=True):
-        self.storage["{0}".format(str(tag))] = self.canvis.create_line(100, 100, 100, 100,fill=color)
+    def line(self, tag, x, y, xp, yp, fill="#000000", visable=True):
+        self.storage["{0}".format(str(tag))] = self.canvis.create_line(100, 100, 100, 100, fill=fill)
         self.location["{0}".format(str(tag))] = self.numb
-        self.data.append([4, tag, x, y, xp, yp, color, "#000000", visable])
+        self.data.append([4, tag, x, y, xp, yp, fill, "#000000", visable])
         self.numb += 1
 
-    def rect(self, tag, x, y, xp, yp, fill="#ffffff", stroke="#000000",visable=True):
+    def rect(self, tag, x, y, xp, yp, fill="#ffffff", stroke=None,visable=True):
+        if stroke == None:
+            stroke = fill
+
         self.storage['{0}'.format(str(tag))] = self.canvis.create_rectangle(100, 100, 100, 100, fill=fill,
                                                                             outline=stroke)
         self.location['{0}'.format(str(tag))] = self.numb
@@ -226,22 +230,22 @@ class display:
         self.data.append([4, tag, x, y, xp, yp, fill, stroke, visable])
         self.numb += 1
 
-    def text(self, tag, x, y, size, text=10, fill="#ffffff", stroke="#000000", font="Lato",visable=True,angle = 0):
+    def text(self, tag, x, y, size, text=10, fill="#ffffff", stroke="#000000", font="Lato",visable=True,angle=0):
 
         self.storage['{0}'.format(str(tag))] = self.canvis.create_text(x, y, text=str(text),fill=fill,angle=angle)
         self.location['{0}'.format(str(tag))] = self.numb
         self.data.append([2, tag, x, y, size, fill, stroke, text, font,visable])
         self.numb += 1
 
-    def triangle(self, tag, x1, y1, x2, y2, x3, y3, fill="#000000",visable=True):
+    def tri(self, tag, x1, y1, x2, y2, x3, y3, fill="#000000", visable=True):
         self.storage['{0}'.format(str(tag))] = self.canvis.create_polygon(x1, y1, x2, y2, x3, y3, fill=fill)
         self.location['{0}'.format(str(tag))] = self.numb
         self.data.append([6, tag, x1, y1, x2, y2, x3, y3, fill,visable])
         self.numb += 1
 
-    def hitbox(self, tag, x1, y1, x2, y2, funct):
+    def hitbox(self, tag, x1, y1, x2, y2, funct,on=True):
         self.location['{0}'.format(str(tag))] = self.numb
-        self.data.append(["4a", tag, x1, y1, x2, y2, funct])
+        self.data.append(["4a", tag, x1, y1, x2, y2, funct,on])
 
         self.numb += 1
     def mouseover(self, tag, x1, y1, x2, y2, funct):
