@@ -28,7 +28,7 @@ for i in range(len(stitle)):
             i+=1
         break
 del url,page,html,start_index,end_index,title,stitle
-iversion = "v1.0.0 Alpha"
+iversion = "V0 PreAlpha"
 
 class globals:
     def __init__(self,lock):
@@ -69,7 +69,8 @@ class gui:
         self.d = display(screenX=1600, screenY=800, bgc=self.theme[0], title="neural networking",icon="settings/Untitled (1).ico")
         self.performanceSidebar1 = self.performanceSidebar(self)
         self.topBar = self.topbar(self)
-        self.inspectSidebar1 = self.inspectSidebar(self)
+        #self.inspectSidebar1 = self.inspectSidebar(self)
+        self.inspector_ = self.inspector(self)
 
         self.updategui()
     def updategui(self):
@@ -134,7 +135,8 @@ class gui:
             self.gui.d.rect("preformance sidebar cpu usage display",(self.width/2)-0.5,9.9,0.5,30,fill="#00ff66")
             self.gui.d.text("preformance sidbar cpu usage label",(((self.width/2))/2),31,2.5,text="CPU",fill=self.gui.theme[3])
             for i in range(19):
-                self.gui.d.line(f"preformance sidebar line {i}",(self.width/2)-0.8,i+11,(self.width/2)-.5,i+11,color=self.gui.theme[2])
+                self.gui.d.line(f"preformance sidebar line {i}", (self.width/2) - 0.8, i + 11, (self.width/2) - .5, i + 11,
+                                fill=self.gui.theme[2])
             #RAM
             self.ramUsage = 0
             self.gui.d.rect("preformance sidbar RAM usage bg", (self.width / 2) + 0.5, 10, 4, 30,
@@ -144,7 +146,7 @@ class gui:
             self.gui.d.text("preformance sidbar RAM usage label", (self.width / 2)+(((self.width/2))/2), 31, 2.5, text="RAM",fill=self.gui.theme[3],)
             for i in range(19):
                 self.gui.d.line(f"preformance sidebar line RAM {i}", (self.width / 2) + 0.8, i + 11, (self.width / 2) + .5,
-                                i + 11, color=self.gui.theme[2])
+                                i + 11, fill=self.gui.theme[2])
 
 
 
@@ -186,6 +188,41 @@ class gui:
 
 
 
+    class inspector():
+
+        def __init__(self,down):
+            self.gui = down
+            self.makeSidebar()
+            self.makeMainBG()
+            self.InspectSidebarItem()
+
+        def unslect(self):
+            pass
+
+
+        def InspectWhenslected(self):
+            state = True
+            self.unslect()
+            self.gui.d.setpos("inspect sidebar item inspect slected line",8,state)
+
+
+        def InspectDeslect(self):
+            state = False
+            self.gui.d.setpos("inspect sidebar item inspect slected line", 8, state)
+        def InspectSidebarItem(self):
+            self.gui.d.rect("inspect sidebar item inspect",4.5,5,5.95,10,fill=self.gui.theme[2])
+            self.gui.d.tri("inspect sidebar item inspect top tri",4.5,5,6,3,6,5,fill=self.gui.theme[2])
+            self.gui.d.tri("inspect sidebar item inspect buttom tri", 4.5, 10, 6, 10, 6, 12, fill=self.gui.theme[2])
+            self.gui.d.text("inspect sidebar item inspect text",((4.5+6)/2),(5+10)/2,3,text="inspect",angle=90,fill=self.gui.theme[3])
+            self.gui.d.line("inspect sidebar item inspect slected line",6.1,11.5,6.1,3.5,fill=self.gui.theme[4],visable=False)
+            self.gui.d.hitbox("inspect sidebar item inspect hitbox",4.5,3,6,12,self.InspectWhenslected)
+
+        def makeMainBG(self):
+            self.gui.d.rect("inspector Main BG",6,3.1,20,100,fill=self.gui.theme[1])
+
+
+        def makeSidebar(self):
+            self.gui.d.rect("inspector sidebar BG",4.5,3.1,6,100,fill=self.gui.theme[0])
 
 
     class topbar:
