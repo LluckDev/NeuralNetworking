@@ -159,7 +159,7 @@ class topbar_item:
                                     funct=self.openfilemenu)
         self.topbar.gui.d.rect(f"{self.name} dropdown background", self.sx, 3, self.sx + self.x, 3 + (self.NofL*2.5),
                                visable=False,
-                               fill=self.topbar.gui.theme[1])
+                               fill=self.topbar.gui.theme[1],stroke=self.topbar.gui.theme[0])
         self.topbar.gui.d.text(f"{self.name} toptbar text", ((self.sx)+(self.sx +self.ex-0.1))/2, (2.5 / 2) + 0.3, 3, text=f"{self.name}",
                                fill=self.topbar.gui.theme[3])
         for i in range(self.NofL):
