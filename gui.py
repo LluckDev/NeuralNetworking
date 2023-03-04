@@ -1,5 +1,6 @@
 from tkinter import *
 
+import numba
 
 class display:
 
@@ -64,6 +65,8 @@ class display:
         self.runing = False
         self.window.destroy()
 
+
+    
     def update(self):
         self.winy = self.window.winfo_height()
 

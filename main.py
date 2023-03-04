@@ -67,11 +67,16 @@ class gui:
         # theme = [back,mid,front,text,highlight]
         self.theme = getTheme()
         self.d = display(screenX=1600, screenY=800, bgc=self.theme[0], title="neural networking",icon="settings/Untitled (1).ico")
+
+
         self.performanceSidebar1 = self.performanceSidebar(self)
-        self.topBar = self.topbar(self)
-        #self.inspectSidebar1 = self.inspectSidebar(self)
+
+        #self.inspector_ = self.inspector(self)
+
+
         self.inspector_ = self.inspector(self)
 
+        self.topBar = self.topbar(self)
         self.updategui()
     def updategui(self):
 
@@ -194,11 +199,16 @@ class gui:
             self.gui = down
             self.makeSidebar()
             self.makeMainBG()
-            self.InspectSidebarItem()
 
-        def unslect(self):
+            self.inspect = self.newsidebaritem("somtion",0,self.selectinspect,self.deselectAll,self.deselectInspect,self.gui)
+
+        def deselectAll(self):
+            self.inspect.deselect()
+
+        def selectinspect(self):
             pass
-
+        def deselectInspect(self):
+            pass
 
         def InspectWhenslected(self):
             state = True
@@ -223,6 +233,37 @@ class gui:
 
         def makeSidebar(self):
             self.gui.d.rect("inspector sidebar BG",4.5,3.1,6,100,fill=self.gui.theme[0])
+
+        class newsidebaritem:
+            def __init__(self, name, number, whenslected, deselectAll,deselect, down):
+                self.sfunct = whenslected
+                self.deselectallF = deselectAll
+                self.deselectSELF = deselect
+                self.name = name
+                self.gui = down
+                self.gui.d.rect(f"{name} sidebar item inspect", 4.5, 9*number+5, 5.95, 9*number+10, fill=self.gui.theme[2])
+                self.gui.d.tri(f"{name} sidebar item inspect top tri", 4.5, 9*number+5, 6, 9*number+3, 6, 9*number+5, fill=self.gui.theme[2])
+                self.gui.d.tri(f"{name} sidebar item inspect buttom tri", 4.5, 9*number+10, 6, 9*number+10, 6, 9*number+12, fill=self.gui.theme[2])
+                self.gui.d.text(f"{name} sidebar item inspect text", ((4.5 + 6) / 2), (9*number+5 + 9*number+10) / 2, 3, text=name,
+                                angle=90, fill=self.gui.theme[3])
+                self.gui.d.line(f"{name} sidebar item inspect slected line", 6.1, 9*number+11.5, 6.1, 9*number+3.5,
+                                fill=self.gui.theme[4], visable=False)
+                self.gui.d.hitbox(f"{name} sidebar item inspect hitbox", 4.5, 9*number+3, 6, 9*number+12, self.slect)
+
+            def slect(self):
+                print("yay1")
+
+                self.deselectallF()
+
+                self.sfunct()
+                print("yay2")
+
+                self.gui.d.setpos(f"{self.name} sidebar item inspect hitbox", 8, True)
+
+            def deselect(self):
+                self.gui.d.setpos(f"{self.name} sidebar item inspect hitbox", 8, False)
+                self.deselectSELF
+
 
 
     class topbar:
@@ -308,6 +349,7 @@ class gui:
             self.last.bild()
 
             self.gui.d.line("bottom line topbar",0,3,100,3)
+            return None
 
 
 
