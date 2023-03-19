@@ -77,6 +77,7 @@ class gui:
         self.inspector_ = self.inspector(self)
 
         self.topBar = self.topbar(self)
+        self.d.textbox("sus",40,40,60,60)
         self.updategui()
     def updategui(self):
 

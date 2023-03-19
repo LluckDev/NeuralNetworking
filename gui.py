@@ -1,12 +1,20 @@
 from tkinter import *
 
-import numba
+def inZone(x,y,xp,yp,mx,my):
+    if mx >= x and mx<=xp and my >= y and my <= yp:
+
+        return True
+    else:
+        return False
+
+
 
 class display:
 
-    def empty(self,key=""):
+    def empty(self, key=""):
         pass
-    def __init__(self, grid=100, screenX=100, screenY=100, bgc="#ffffff", fullscreen=True,title="gui",icon = None):
+
+    def __init__(self, grid=100, screenX=100, screenY=100, bgc="#ffffff", fullscreen=True, title="gui", icon=None):
 
         self.storage = {}
         self.extra = {}
@@ -47,12 +55,9 @@ class display:
         self.lastkey = tag.char
         self.keypressed = True
 
-
-    def setkey(self,keypressed=None,key=None):
+    def setkey(self, keypressed=None, key=None):
         self.funkts.append(keypressed)
         self.funkts.append(key)
-
-
 
     def callback(self, event):
         self.rep = 0
@@ -65,8 +70,6 @@ class display:
         self.runing = False
         self.window.destroy()
 
-
-    
     def update(self):
         self.winy = self.window.winfo_height()
 
@@ -90,10 +93,7 @@ class display:
 
             self.keypressed = False
 
-        i = 0
-        while i < self.numb:
-
-
+        for i in range(self.numb):
 
             if self.data[i][0] == 4:
                 self.canvis.coords(self.storage["{0}".format(str(self.data[i][1]))],
@@ -101,10 +101,10 @@ class display:
                                    self.data[i][3] * self.winy / self.incrment,
                                    self.data[i][4] * self.winx / self.incrment,
                                    self.data[i][5] * self.winy / self.incrment)
-                if self.data[i][8]==True:
-                    self.canvis.itemconfig(self.storage["{0}".format(str(self.data[i][1]))],state='normal')
+                if self.data[i][8] == True:
+                    self.canvis.itemconfig(self.storage["{0}".format(str(self.data[i][1]))], state='normal')
                 else:
-                    self.canvis.itemconfig(self.storage["{0}".format(str(self.data[i][1]))],state='hidden')
+                    self.canvis.itemconfig(self.storage["{0}".format(str(self.data[i][1]))], state='hidden')
             elif self.data[i][0] == 6:
                 self.canvis.coords(self.storage["{0}".format(str(self.data[i][1]))],
                                    self.data[i][2] * self.winx / self.incrment,
@@ -113,32 +113,32 @@ class display:
                                    self.data[i][5] * self.winy / self.incrment,
                                    self.data[i][6] * self.winx / self.incrment,
                                    self.data[i][7] * self.winy / self.incrment)
-                if self.data[i][9]==True:
-                    self.canvis.itemconfig(self.storage["{0}".format(str(self.data[i][1]))],state='normal')
+                if self.data[i][9] == True:
+                    self.canvis.itemconfig(self.storage["{0}".format(str(self.data[i][1]))], state='normal')
                 else:
-                    self.canvis.itemconfig(self.storage["{0}".format(str(self.data[i][1]))],state='hidden')
+                    self.canvis.itemconfig(self.storage["{0}".format(str(self.data[i][1]))], state='hidden')
 
             elif self.data[i][0] == 2:
-                if self.data[i][9]==True:
-                    self.canvis.itemconfig(self.storage["{0}".format(str(self.data[i][1]))],state='normal')
+                if self.data[i][9] == True:
+                    self.canvis.itemconfig(self.storage["{0}".format(str(self.data[i][1]))], state='normal')
                 else:
-                    self.canvis.itemconfig(self.storage["{0}".format(str(self.data[i][1]))],state='hidden')
+                    self.canvis.itemconfig(self.storage["{0}".format(str(self.data[i][1]))], state='hidden')
                 self.canvis.itemconfig(self.storage["{0}".format(str(self.data[i][1]))],
                                        font=("Purisa", int(self.data[i][4] * (self.winx + self.winy) / 600)))
                 self.canvis.coords(self.storage["{0}".format(str(self.data[i][1]))],
                                    self.data[i][2] * self.winx / self.incrment,
                                    self.data[i][3] * self.winy / self.incrment)
             elif self.data[i][0] == "2a":
-                if self.data[i][5]==True:
-                    self.canvis.itemconfig(self.storage["{0}".format(str(self.data[i][1]))],state='normal')
+                if self.data[i][5] == True:
+                    self.canvis.itemconfig(self.storage["{0}".format(str(self.data[i][1]))], state='normal')
                 else:
-                    self.canvis.itemconfig(self.storage["{0}".format(str(self.data[i][1]))],state='hidden')
+                    self.canvis.itemconfig(self.storage["{0}".format(str(self.data[i][1]))], state='hidden')
 
                 self.canvis.coords(self.storage["{0}".format(str(self.data[i][1]))],
                                    self.data[i][2] * self.winx / self.incrment,
                                    self.data[i][3] * self.winy / self.incrment)
             elif self.data[i][0] == "4a":
-                if self.data[i][7]==True:
+                if self.data[i][7] == True:
                     if self.mx >= self.data[i][2] and self.mx <= self.data[i][4]:
                         if self.my >= self.data[i][3] and self.my <= self.data[i][5]:
                             if self.mouseP == True:
@@ -155,15 +155,15 @@ class display:
                     self.data[i][7] = False
 
             elif self.data[i][0] == "4b":
-                if self.data[i][9]==True:
-                    self.canvis.itemconfig(self.storage["{0}".format(str(self.data[i][1]))],state='normal')
+                if self.data[i][9] == True:
+                    self.canvis.itemconfig(self.storage["{0}".format(str(self.data[i][1]))], state='normal')
                 else:
-                    self.canvis.itemconfig(self.storage["{0}".format(str(self.data[i][1]))],state='hidden')
+                    self.canvis.itemconfig(self.storage["{0}".format(str(self.data[i][1]))], state='hidden')
                 self.canvis.coords(self.storage["{0}".format(str(self.data[i][1]))],
                                    self.data[i][2] * self.winx / self.incrment,
                                    self.data[i][3] * self.winy / self.incrment,
-                                    self.data[i][4] * self.winx / self.incrment,
-                                    self.data[i][5] * self.winy / self.incrment)
+                                   self.data[i][4] * self.winx / self.incrment,
+                                   self.data[i][5] * self.winy / self.incrment)
 
                 if self.mx >= self.data[i][2] and self.mx <= self.data[i][4]:
                     if self.my >= self.data[i][3] and self.my <= self.data[i][5]:
@@ -195,18 +195,62 @@ class display:
                     if self.lastkey == "\b":
                         self.data[i][8] = self.data[i][8][:-2]
 
-
-
                 self.canvis.itemconfig(self.extra["{0}".format(str(self.data[i][1]))],
                                        font=("Purisa", int((((self.data[i][2] - self.data[i][4]) + (
-                                                   self.data[i][3] - self.data[i][5])) / 2) * (
-                                                                       self.winx + self.winy) / 1000)))
+                                               self.data[i][3] - self.data[i][5])) / 2) * (
+                                                                   self.winx + self.winy) / 1000)))
                 self.canvis.coords(self.extra["{0}".format(str(self.data[i][1]))],
                                    (((self.data[i][4] - self.data[i][2]) / 2) + self.data[i][
                                        2]) * self.winx / self.incrment,
                                    (((self.data[i][5] - self.data[i][3]) / 2) + self.data[i][
                                        3]) * self.winy / self.incrment)
-            i+=1
+
+            elif self.data[i][0] == "bt":
+                #visable
+                if self.data[i][6]:
+                    #auto maticly calc backbox
+                    if self.data[i][19]:
+                        xs = ((self.data[i][18]/3)*(4/7)*len(self.data[i][4]))/2
+                        ys = self.data[i][18]/2
+                    else:
+                        xs =(self.data[i][13] / 2)
+                        ys =(self.data[i][14] / 2)
+
+                    #make not hidden
+                    self.canvis.itemconfig(self.storage["{0}".format(str(self.data[i][1]) + "text")], state='normal')
+
+                    #text formats
+                    self.canvis.itemconfig(self.storage["{0}".format(str(self.data[i][1]) + "text")],
+                                           font=("Purisa", int(self.data[i][18] * (self.winx + self.winy) / 600)))
+                    #text pos
+                    self.canvis.coords(self.storage["{0}".format(str(self.data[i][1]) + "text")],
+                                       self.data[i][2] * self.winx / self.incrment,
+                                       self.data[i][3] * self.winy / self.incrment)
+                    #backbox
+                    if self.data[i][12]:
+                        #make not hidden
+                        self.canvis.itemconfig(self.storage["{0}".format(str(self.data[i][1]) + "rect")],
+                                               state='normal')
+                        #set pos and size
+                        self.canvis.coords(self.storage["{0}".format(str(self.data[i][1]) + "rect")],
+                                           self.data[i][2] - xs * self.winx / self.incrment,
+                                           self.data[i][3] - ys * self.winy / self.incrment,
+                                           self.data[i][2] + xs * self.winx / self.incrment,
+                                           self.data[i][3] + ys * self.winy / self.incrment)
+                    #hitbox
+                    if self.data[i][9]:
+                        if inZone((self.data[i][2]-xs),(self.data[i][3]-ys),(self.data[i][2]+xs),(self.data[i][3]+ys),self.mx,self.my) and self.mouseP:
+                            self.data[i][11] = True
+                        if not(inZone((self.data[i][2]-xs),(self.data[i][3]-ys),(self.data[i][2]+xs),(self.data[i][3]+ys),self.mx,self.my)) and self.mouseP:
+                            self.data[i][11] = False
+
+
+
+                else:
+                    self.canvis.itemconfig(self.storage["{0}".format(str(self.data[i][1]) + "text")], state='hidden')
+                    if self.data[i][12]:
+                        self.canvis.itemconfig(self.storage["{0}".format(str(self.data[i][1]) + "rect")],
+                                               state='hidden')
 
         self.window.update_idletasks()
         self.window.update()
@@ -217,7 +261,7 @@ class display:
         self.data.append([4, tag, x, y, xp, yp, fill, "#000000", visable])
         self.numb += 1
 
-    def rect(self, tag, x, y, xp, yp, fill="#ffffff", stroke=None,visable=True):
+    def rect(self, tag, x, y, xp, yp, fill="#ffffff", stroke=None, visable=True):
         if stroke == None:
             stroke = fill
 
@@ -227,53 +271,59 @@ class display:
         self.data.append([4, tag, x, y, xp, yp, fill, stroke, visable])
         self.numb += 1
 
-    def ellipse(self, tag, x, y, xp, yp, fill="#ffffff", stroke="#000000",visable=True):
+    def ellipse(self, tag, x, y, xp, yp, fill="#ffffff", stroke="#000000", visable=True):
         self.storage['{0}'.format(str(tag))] = self.canvis.create_oval(x, y, xp, yp, fill=fill, outline=stroke)
         self.location['{0}'.format(str(tag))] = self.numb
         self.data.append([4, tag, x, y, xp, yp, fill, stroke, visable])
         self.numb += 1
 
-    def text(self, tag, x, y, size, text=10, fill="#ffffff", stroke="#000000", font="Lato",visable=True,angle=0):
+    def text(self, tag, x, y, size, text=10, fill="#ffffff", stroke="#000000", font="Lato", visable=True, angle=0):
 
-        self.storage['{0}'.format(str(tag))] = self.canvis.create_text(x, y, text=str(text),fill=fill,angle=angle)
+        self.storage['{0}'.format(str(tag))] = self.canvis.create_text(x, y, text=str(text), fill=fill, angle=angle)
         self.location['{0}'.format(str(tag))] = self.numb
-        self.data.append([2, tag, x, y, size, fill, stroke, text, font,visable])
+        self.data.append([2, tag, x, y, size, fill, stroke, text, font, visable])
         self.numb += 1
 
     def tri(self, tag, x1, y1, x2, y2, x3, y3, fill="#000000", visable=True):
         self.storage['{0}'.format(str(tag))] = self.canvis.create_polygon(x1, y1, x2, y2, x3, y3, fill=fill)
         self.location['{0}'.format(str(tag))] = self.numb
-        self.data.append([6, tag, x1, y1, x2, y2, x3, y3, fill,visable])
+        self.data.append([6, tag, x1, y1, x2, y2, x3, y3, fill, visable])
         self.numb += 1
 
-    def hitbox(self, tag, x1, y1, x2, y2, funct,on=True):
+    def hitbox(self, tag, x1, y1, x2, y2, funct, on=True):
         self.location['{0}'.format(str(tag))] = self.numb
-        self.data.append(["4a", tag, x1, y1, x2, y2, funct,on])
+        self.data.append(["4a", tag, x1, y1, x2, y2, funct, on])
 
         self.numb += 1
+
     def mouseover(self, tag, x1, y1, x2, y2, funct):
         self.location['{0}'.format(str(tag))] = self.numb
-        self.data.append(["4d", tag, x1, y1, x2, y2, funct,False])
+        self.data.append(["4d", tag, x1, y1, x2, y2, funct, False])
 
         self.numb += 1
-    def button(self, tag, x1, y1, x2, y2, funct, fill="#ffffff", stroke="#000000", Text=None,visable=True,textsize=10):
+
+    def button(self, tag, x1, y1, x2, y2, funct, fill="#ffffff", stroke="#000000", Text=None, visable=True,
+               textsize=10):
         self.storage['{0}'.format(str(tag))] = self.canvis.create_rectangle(100, 100, 100, 100, fill=fill,
-                                                                                      outline=stroke)
+                                                                            outline=stroke)
         self.location['{0}'.format(str(tag))] = self.numb
-        self.data.append(["4b", tag, x1, y1, x2, y2, fill, stroke, funct,visable,None])
+        self.data.append(["4b", tag, x1, y1, x2, y2, fill, stroke, funct, visable, None])
         self.numb += 1
         if Text != None:
-            self.storage['{0}'.format(str(tag))] = self.canvis.create_text((x2+x1)/2, (y2+y1)/2, text=str(Text))
+            self.storage['{0}'.format(str(tag))] = self.canvis.create_text((x2 + x1) / 2, (y2 + y1) / 2, text=str(Text))
             self.location['{0}'.format(str(tag))] = self.numb
-            self.data.append([2, tag, (x2+x1)/2, (y2+y1)/2, textsize, fill, stroke, Text,visable])
+            self.data.append([2, tag, (x2 + x1) / 2, (y2 + y1) / 2, textsize, fill, stroke, Text, visable])
             self.numb += 1
-    def buttonM(self,returner, tag, x1, y1, x2, y2, funct, fill="#ffffff", stroke="#000000", Text=None,visable=True,textsize=10):
+
+    def buttonM(self, returner, tag, x1, y1, x2, y2, funct, fill="#ffffff", stroke="#000000", Text=None, visable=True,
+                textsize=10):
 
         self.storage['{0}'.format(str(tag))] = self.canvis.create_rectangle(100, 100, 100, 100, fill=fill,
-                                                                                      outline=stroke)
+                                                                            outline=stroke)
         self.location['{0}'.format(str(tag))] = self.numb
-        self.data.append(["4b", tag, x1, y1, x2, y2, fill, stroke, funct,visable,returner])
+        self.data.append(["4b", tag, x1, y1, x2, y2, fill, stroke, funct, visable, returner])
         self.numb += 1
+
     def textbox(self, tag, x1, y1, x2, y2, starttext="text", fill="#ffffff", stroke="#000000"):
         self.storage['{0}'.format(str(tag))] = self.canvis.create_rectangle(100, 100, 100, 100, fill=fill,
                                                                             outline=stroke)
@@ -282,11 +332,31 @@ class display:
         self.numb += 1
         self.extra['{0}'.format(str(tag))] = self.canvis.create_text(100, 100, text=starttext)
 
-    def image(self,tag,x,y,Ipath,ancor="center",visable=True):
-        self.storage['{0}'.format(str(tag))] = self.canvis.create_image(x,y,image=Ipath,anchor=ancor)
+    def image(self, tag, x, y, Ipath, ancor="center", visable=True):
+        self.storage['{0}'.format(str(tag))] = self.canvis.create_image(x, y, image=Ipath, anchor=ancor)
         self.location['{0}'.format(str(tag))] = self.numb
-        self.data.append(["2a", tag,x,y,ancor,visable])
-        self.numb+=1
+        self.data.append(["2a", tag, x, y, ancor, visable])
+        self.numb += 1
+
+    def editableText(self, tag, x, y, starttext="Text", textRot=0, textsize=10, textFill="#000000", visable=True,
+                     reference=None, IncludeHitbox=True, hitboxactive=True, selected=True, IncludeBackbox=True,
+                     xSize=10, ySize=15, fill="#ffffff", stroke=True,auto=True):
+        self.storage['{0}'.format(str(tag) + "text")] = self.canvis.create_text(x, y, starttext, fill=textFill,
+                                                                                angle=textRot)
+        self.location['{0}'.format(str(tag) + "text")] = self.numb
+        self.numb += 1
+        if (IncludeBackbox):
+            if stroke:
+                stroke = fill
+            self.storage['{0}'.format(str(tag) + "rect")] = self.canvis.create_rectangle(x - (xSize / 2), y - (ySize),
+                                                                                         x + (xSize / 2), y + (ySize),
+                                                                                         fill=fill, outline=stroke)
+            self.location['{0}'.format(str(tag) + "rect")] = self.numb
+            self.numb += 1
+        self.data.append(
+            ["bt", tag, x, y, starttext, textRot, visable, textFill, reference, IncludeHitbox, hitboxactive, selected,
+             IncludeBackbox, xSize, ySize, fill, stroke, textsize, auto])
+
     def mouseX(self):
         return self.window.winfo_pointerx()
 
@@ -315,7 +385,16 @@ class display:
             self.data[tagloc][6] = fill
             self.canvis.itemconfig(self.storage['{0}'.format(str(tag))], fill=fill)
         if text != None:
-            self.canvis.itemconfig(self.storage['{0}'.format(str(tag))], text=text)
+            try:
+                self.canvis.itemconfig(self.storage['{0}'.format(str(tag))], text=text)
+            except:
+                pass
+            try:
+                i = self.location['{0}'.format(str(tag) + "text")]
+                self.canvis.itemconfig(self.storage['{0}'.format(str(tag) + "text")], text=text)
+                self.data[i][4] = text
+            except:
+                pass
 
     def mathset(self, tag, mathop, firstloc, second):
         tagloc = self.location["{0}".format(str(tag))]
@@ -334,15 +413,13 @@ class display:
         tagloc = self.location["{0}".format(str(tag))]
         return self.data[tagloc][loc]
 
-    def sendkeys(self,key,function):
+    def sendkeys(self, key, function):
         self.sendkeyF[key] = function
 
-    def addcolorpalette(self,tag,color):
+    def addcolorpalette(self, tag, color):
         self.cp[tag] = color
-    def changecolor(self,tag,color):
+
+    def changecolor(self, tag, color):
         tagloc = self.location["{0}".format(str(tag))]
         self.data[tagloc][6] = color
         self.canvis.itemconfig(self.storage['{0}'.format(str(tag))], fill=color)
-
-
-
